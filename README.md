@@ -16,8 +16,7 @@ Converts Rust Wasm to JavaScript.
 ## Build and Run 
 
 ```bash
-wasm-pack build --target web
-npm run build
+wasm-pack build --target web && npm run serve
 ```
 
 
