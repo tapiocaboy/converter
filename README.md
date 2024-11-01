@@ -38,5 +38,4 @@ npm run serve
 # Terminal 2
 npm run start-server
 ```
-
 Open the browser and navigate to `http://localhost:4000`
