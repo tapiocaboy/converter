@@ -4,14 +4,14 @@ async function run() {
     await import('./pkg/converter.js');
     
     const wsEndpoint = "ws://localhost:8080";
-    const defaultMessage = "Hello WebSocket!";
+    const defaultMessage = "Type a message";
 
     const container = document.createElement('div');
     container.innerHTML = `
         <div>
-            <input type="text" id="wsEndpoint" value="${wsEndpoint}" placeholder="WebSocket URL">
-            <input type="text" id="message" value="${defaultMessage}" placeholder="Message">
-            <button id="sendBtn">Send</button>
+            <div>Address: <input type="text" id="wsEndpoint" value="${wsEndpoint}"></div>
+            <div>Message: <input type="text" id="message" value="${defaultMessage}"></div>
+            <div><button id="sendBtn">Send</button></div>
             <div id="response"></div>
         </div>
     `;
@@ -23,12 +23,12 @@ async function run() {
         const responseDiv = document.getElementById('response');
 
         try {
-            responseDiv.textContent = 'Sending...';
+            responseDiv.textContent = 'SENDING';
             const response = await ws_ping(endpoint, msg);
-            responseDiv.textContent = `Response: ${response}`;
+            responseDiv.textContent = `RESPONSE: ${response}`;
         } catch (error) {
-            responseDiv.textContent = `Error: ${error.message || error}`;
-            console.error('WebSocket error:', error);
+            responseDiv.textContent = `ERROR: ${error.message || error}`;
+            console.error('ERROR:', error);
         }
     });
 }

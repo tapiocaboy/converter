@@ -1,11 +1,9 @@
+use js_sys::Promise;
+use std::cell::RefCell;
+use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::JsFuture;
-use web_sys::{WebSocket, MessageEvent, ErrorEvent};
-use js_sys::Promise;
-use std::rc::Rc;
-use std::cell::RefCell;
-
-
+use web_sys::{ErrorEvent, MessageEvent, WebSocket};
 
 // /// Foreign function interface for JavaScript
 // #[wasm_bindgen]
@@ -24,7 +22,7 @@ use std::cell::RefCell;
 pub async fn ws_ping(endpoint: String, message: String) -> Result<String, JsValue> {
     // Create WebSocket instance and wrap it in Rc
     let ws = Rc::new(WebSocket::new(&endpoint)?);
-    
+
     // Create a promise and its resolvers
     // TODO: Handle unwraps
     let (promise, resolve, reject) = {
@@ -47,7 +45,9 @@ pub async fn ws_ping(endpoint: String, message: String) -> Result<String, JsValu
         let callback = Closure::wrap(Box::new(move |e: MessageEvent| {
             if let Some(resolve) = resolve.borrow_mut().take() {
                 let data = e.data().as_string().unwrap_or_default();
-                resolve.call1(&JsValue::NULL, &JsValue::from_str(&data)).unwrap();
+                resolve
+                    .call1(&JsValue::NULL, &JsValue::from_str(&data))
+                    .unwrap();
             }
         }) as Box<dyn FnMut(MessageEvent)>);
         ws.set_onmessage(Some(callback.as_ref().unchecked_ref()));
@@ -75,10 +75,11 @@ pub async fn ws_ping(endpoint: String, message: String) -> Result<String, JsValu
         let ws_clone = Rc::clone(&ws);
         let mut message = message.clone();
         message.push_str("oh Yah baby! from WASM Rust");
+
         let onopen_callback = Closure::wrap(Box::new(move |_| {
             let _ = ws_clone.send_with_str(&message);
         }) as Box<dyn FnMut(JsValue)>);
-        
+
         let ws_for_set = Rc::clone(&ws);
         ws_for_set.set_onopen(Some(onopen_callback.as_ref().unchecked_ref()));
         onopen_callback.forget();
