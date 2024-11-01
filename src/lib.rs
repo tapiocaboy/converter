@@ -9,6 +9,11 @@ use web_sys::{ErrorEvent, MessageEvent, WebSocket};
 /// # Arguments
 /// * `ws` - The WebSocket instance
 /// * `reject_args` - The reject arguments
+/// # Example
+/// ```rust
+/// let reject_args = Rc::new(RefCell::new(None));
+/// setup_error_handler(&ws, reject_args);
+/// ```
 fn setup_error_handler(ws: &WebSocket, reject_args: Rc<RefCell<Option<js_sys::Function>>>) {
     let reject_clone = Rc::clone(&reject_args);
     let error_callback = Closure::wrap(Box::new(move |e: ErrorEvent| {
@@ -24,7 +29,10 @@ fn setup_error_handler(ws: &WebSocket, reject_args: Rc<RefCell<Option<js_sys::Fu
 /// Setup message sender
 /// # Arguments
 /// * `ws` - The WebSocket instance
-/// * `message` - The message to send
+/// # Example
+/// ```rust
+/// setup_message_sender(&ws, message);
+/// ```
 fn setup_message_sender(ws: &WebSocket, message: String) {
     let ws_clone = Rc::clone(&Rc::new(ws.clone()));
     let mut message = message.clone();
@@ -42,6 +50,10 @@ fn setup_message_sender(ws: &WebSocket, message: String) {
 /// # Arguments
 /// * `ws` - The WebSocket instance
 /// * `resolve_args` - The resolve arguments
+/// # Example
+/// ```rust
+/// setup_message_handler(&ws, resolve);
+/// ```
 fn setup_message_handler(ws: &WebSocket, resolve_args: Rc<RefCell<Option<js_sys::Function>>>) {
     let resolve = Rc::clone(&resolve_args);
     let callback = Closure::wrap(Box::new(move |e: MessageEvent| {
