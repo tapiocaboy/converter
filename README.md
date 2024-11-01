@@ -1,6 +1,3 @@
-# Converter
-
-Converts Rust Wasm to JavaScript.
 
 ### Installation
 
