@@ -1,19 +1,28 @@
+# WebSocket WASM Demo
 
-### Installation
+A WebSocket demo application using Rust WebAssembly (WASM) and Node.js.
 
-* Install wasm-pack
+## Prerequisites
+
+- Rust and Cargo
+- Node.js and npm
+- wasm-pack
+
+## Installation
+
+1. Install wasm-pack
 
     ```bash
     cargo install wasm-pack
     ```
 
-* Install webpack
+- Install webpack
 
     ```bash
     npm install webpack webpack-cli --save-dev
     ```
 
-* Node WebSocket Server
+- Node WebSocket Server
 
     ```bash
     npm install ws
